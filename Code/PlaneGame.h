@@ -1,10 +1,5 @@
 #pragma once
 
-//#include"SFML/System.hpp"
-//#include"SFML/Network.hpp"
-//#include<vector>
-//#include<cstdlib>
-//#include<string>
 #define winScore 5
 
 void PlaneGame(RenderWindow& window)
@@ -93,6 +88,7 @@ void PlaneGame(RenderWindow& window)
     fire.setScale(0.5f, 0.5f);
     
     //Text to display score
+    int score = 0;
     Text scoreText("Score:", gameFont, 30);
     scoreText.setFillColor(Color::Red);
 
@@ -144,6 +140,7 @@ void PlaneGame(RenderWindow& window)
                         
                         i--;
                         enemiesDestroyedcount++;
+                        score++;
                         
                         break;
                     }
@@ -180,13 +177,12 @@ void PlaneGame(RenderWindow& window)
                 }
             }
             //coin
-            if (enemiesDestroyedcount >= 10)
+            if (enemiesDestroyedcount >= 3)
             {
                 coinenemy.setPosition(window.getView().getSize().x, rand() % int((float)window.getView().getSize().y - coinenemy.getGlobalBounds().height));
                 coins.push_back(Sprite(coinenemy));
                 coinenemy.move(-20, 0);
                 enemiesDestroyedcount = 0;
-                
             }
             // Update coin enemy movement
             for (size_t i = 0; i < coins.size(); i++)
@@ -209,10 +205,8 @@ void PlaneGame(RenderWindow& window)
             }
             for (size_t i = 0; i < coins.size(); i++)
             {
-                
                 if (plane.getGlobalBounds().intersects(coins[i].getGlobalBounds()))
                 {
-                    
                     hp -= 5;
                     coins.erase(coins.begin() + i);
                     break;
@@ -220,7 +214,7 @@ void PlaneGame(RenderWindow& window)
             }
             
             //Score
-            scoreText.setString("Score: " + to_string(enemiesDestroyedcount));
+            scoreText.setString("Score: " + to_string(score));
             
             //hp update
             hpBar.setSize(Vector2f((float)hp * 20.f, 20.f));
@@ -228,7 +222,7 @@ void PlaneGame(RenderWindow& window)
             if (hp <= 0)
                 lost = true;
             
-            if (enemiesDestroyedcount >= winScore)
+            if (score >= winScore)
                 gameWon = true;
         }
     

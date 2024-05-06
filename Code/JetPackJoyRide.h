@@ -20,7 +20,7 @@ void jetPackGame(RenderWindow& window)
         RectangleShape goalScreenRect((Vector2f)window.getView().getSize());
         goalScreenRect.setFillColor(Color(0, 0, 0, 150));
         
-        Text goalScreenText("Survive for 10 seconds to get your clue!", gameFont, 40);
+        Text goalScreenText("Survive for 15 seconds to get your clue!", gameFont, 40);
         goalScreenText.setOrigin(goalScreenText.getGlobalBounds().getSize() / 2.f + goalScreenText.getLocalBounds().getPosition());
         goalScreenText.setPosition(menuUiCenterX, menuUiPartsY * 3.f);
         
@@ -123,7 +123,7 @@ void jetPackGame(RenderWindow& window)
         if (!lost && !paused && !gameWon) 
         {
             scoreText.setString("Time: "+to_string((int)win.getElapsedTime().asSeconds()));
-            if (win.getElapsedTime().asSeconds() >= 10.f)
+            if (win.getElapsedTime().asSeconds() >= 15.f)
                 gameWon = true;
             if (Keyboard::isKeyPressed(Keyboard::Space))//Upward Movement and bullet Positioning initialized when pressing space bar
             {
