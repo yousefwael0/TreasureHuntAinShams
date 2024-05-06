@@ -12,7 +12,7 @@ Game States Chart:
     0 MainMenu
     1 SnakeGame(Arts)
     2 Mario(Law)
-    3 ??(cs)
+    3 JetPackJoyRide(cs)
     4 PlaneGame(Sc)
     5 WordScapes(mass)
     6 EnterTheClue(palace)

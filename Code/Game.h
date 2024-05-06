@@ -12,7 +12,7 @@ struct GameState
 {
     int index = 0;
     string name = "Treasure Hunt ASU";
-    bool isActive = false, done = true;
+    bool isActive = false, done = false;
 }states[StateCount];
 
 //Variables used for changing the UI
@@ -24,7 +24,6 @@ Font gameFont;
 //Funtion called at the start of the game to initailize the states array
 void InitializeStates()
 {
-    states[6].done = false;
     for (int i = 0; i < StateCount; i++)
         states[i].index = i;
     

@@ -248,6 +248,13 @@ void LoadPalace(RenderWindow& window)
                 window.draw(TextEntered[i]); // Draw text inside squares
             }
             window.draw(text);
+            window.draw(Banner);
+            window.draw(first);
+            window.draw(second);
+            window.draw(third);
+            window.draw(fourth);
+            window.draw(fifth);
+            window.draw(sixth);
             
             window.display();
         }
