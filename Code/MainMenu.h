@@ -1,9 +1,13 @@
 #pragma once
 
+#include <fstream>
+#include <sstream>
+
 bool inmenu = true;
 bool inmap = false;
 bool inaboutus = false;
 bool ininfo = false;
+bool inhall = false;
 
 // ASSETS LOADING
 Font font;
@@ -12,17 +16,18 @@ SoundBuffer owletmoveBuffer, startbuffer, clickbuffer, cluebuffer, wonbuffer;
 
 Sound Cluefound, clicksound, owletmoveSound, startsound, won;
 
-Texture backgroundTexture, startt, quit, info, emptyy, back, cslogo, one, nine, five, zero, seven, banner, win,
+Texture backgroundTexture, credit, startt, quit, info, emptyy, back, cslogo, one, nine, five, zero, seven, banner, win,
 maptexture, cs, palace, edu, science, law, masscomm, start, csl, palacel, edul, sciencel, lawl, masscomml, csd, palaced, edud, scienced, lawd, masscommd, greendone, csbackground, char1, aboutustext;
 
-Sprite background, Start, Quit, Info, Empty, Back, CSlogo, first, second, third, fourth, fifth, sixth, Banner,
+Sprite background, hallIcon, Start, Quit, Info, Empty, Back, CSlogo, first, second, third, fourth, fifth, sixth, Banner,
 Win, Gamemap, Start1, CS, Palace, Edu, Law, Science, massComm, csback, owlet, aboutus;
 
 Sprite done[5];
 
-Text infootext, credittext, infotext, cstext, edutext, lawtext, masstext, sctext, palacetext, enter;
+Text hallText, infootext, credittext, infotext, cstext, edutext, lawtext, masstext, sctext, palacetext, enter;
 
-bool infoname, text = false;
+bool hallTextBool, infoname, text = false;
+fstream file;
 
 float soundCooldown;
 Clock soundTimer;
@@ -65,6 +70,72 @@ void MainMenu(RenderWindow& window)
         Back.setPosition(110 , 60);
         Back.setScale(0.35, 0.35);
         
+        //Hall Of Fame
+        if (inhall)
+        {
+            if (Back.getGlobalBounds().contains(mousePos))
+            {
+                Back.setScale(0.35 , 0.35);
+
+                if (mousePressed)
+                {
+                    mousePressed = false;
+                    inmenu = true;
+                    inhall = false;
+                }
+            }
+            else
+                Back.setScale(0.3, 0.3);
+
+
+            // READING NAMES FROM HALL OF FAME FILE
+            file.open("Resources/MainMenu/hall_of_fame.txt", ios::in);
+
+            if (!file.is_open())
+                cout << "failed to load file";
+
+            string line;
+
+            string names[10];
+
+            int k = 0; //counter
+
+            while (getline(file, line))
+            {
+                names[k] = line;
+                k++;
+            }
+            file.close();
+
+            Text hallplayers[10];
+            for (int i = 0; i < 10; i++)
+            {
+                hallplayers[i].setFont(font);
+                hallplayers[i].setString(names[i]);
+                hallplayers[i].setCharacterSize(40);
+                hallplayers[i].setFillColor(Color::White);
+                hallplayers[i].setPosition(580, 180 + (55 * i));
+            }
+
+            Text halllogo;
+            halllogo.setFont(font);
+            halllogo.setString("HALL OF FAME ");
+            halllogo.setCharacterSize(80);
+            halllogo.setFillColor(Color::Yellow);
+            halllogo.setPosition(530,100);
+
+
+            window.clear();
+            window.draw(Empty);
+            window.draw(Back);
+            window.draw(halllogo);
+            for (int i = 0; i < 10; i++)
+            {
+                window.draw(hallplayers[i]);
+            }
+            window.display();
+        }
+        
         //Main Menu
         if (inmenu)
         {
@@ -95,6 +166,24 @@ void MainMenu(RenderWindow& window)
             }
             else
                 Quit.setScale(0.3, 0.3);
+            
+            //Hall Button
+            if (hallIcon.getGlobalBounds().contains(mousePos))
+            {
+                hallIcon.setScale(1.1 , 1.1);
+                hallTextBool = true;
+
+                if(Mouse::isButtonPressed(Mouse::Button::Left))
+                {
+                    inhall = true;
+                    inmenu = false;
+                }
+            }
+            else
+            {
+                hallIcon.setScale(0.9, 0.9);
+                hallTextBool = false;
+            }
             
             //Info Button
             if (Info.getGlobalBounds().contains(mousePos))
@@ -133,7 +222,11 @@ void MainMenu(RenderWindow& window)
             window.draw(Start);
             window.draw(Quit);
             window.draw(Info);
+            window.draw(hallIcon);
             window.draw(aboutus);
+            
+            if (hallTextBool)
+               window.draw(hallText);
             
             if (infoname)
                 window.draw(infootext);
@@ -225,6 +318,7 @@ void loadAssets(RenderWindow& window)
         !info.loadFromFile("Resources/MainMenu/Media/menu/info.png") ||
         !emptyy.loadFromFile("Resources/MainMenu/Media/menu/empty.png") ||
         !back.loadFromFile("Resources/MainMenu/Media/menu/back.png") ||
+        !credit.loadFromFile("Resources/MainMenu/Media/menu/credit.png") ||
         !cslogo.loadFromFile("Resources/MainMenu/Media/menu/cslogo.png") ||
         !aboutustext.loadFromFile("Resources/MainMenu/Media/menu/aboutus1.png"))
     {
@@ -234,6 +328,7 @@ void loadAssets(RenderWindow& window)
     Start.setTexture(startt);
     Quit.setTexture(quit);
     Info.setTexture(info);
+    hallIcon.setTexture(credit);
     Empty.setTexture(emptyy);
     Back.setTexture(back);
     CSlogo.setTexture(cslogo);
@@ -260,14 +355,17 @@ void loadAssets(RenderWindow& window)
     Info.setPosition(280, 550);
     Info.setScale(0.9, 0.9 );
 
+    hallIcon.setPosition(1000, 550);
+    hallIcon.setScale(0.9 , 0.9);
+    
     Back.setPosition(110 , 60 );
     Back.setScale(0.35, 0.35);
 
     CSlogo.setPosition(640, 670);
     CSlogo.setScale(0.6 , 0.6);
 
-    //aboutus.setPosition(640, 630);
-    aboutus.setPosition(1000, 550);
+    aboutus.setPosition(640, 630);
+    //aboutus.setPosition(1000, 550);
     aboutus.setScale(0.55 , 0.55);
 
 
@@ -276,8 +374,16 @@ void loadAssets(RenderWindow& window)
     Quit.setOrigin(Quit.getTextureRect().width / 2, Quit.getTextureRect().height / 2);
     Info.setOrigin(Info.getTextureRect().width / 2, Info.getTextureRect().height / 2);
     Back.setOrigin(Back.getTextureRect().width / 2, Back.getTextureRect().height / 2);
+    hallIcon.setOrigin(hallIcon.getTextureRect().width / 2, hallIcon.getTextureRect().height / 2);
     CSlogo.setOrigin(CSlogo.getTextureRect().width / 2, CSlogo.getTextureRect().height / 2);
     aboutus.setOrigin(aboutus.getTextureRect().width / 2, aboutus.getTextureRect().height / 2);
+    
+    // Hall text
+   hallText.setFont(font);
+   hallText.setString("HALL OF FAME");
+   hallText.setCharacterSize(49);
+   hallText.setFillColor(Color::White);
+   hallText.setPosition(880, 600);
 
     // text infotext
     infootext.setFont(font);
@@ -287,8 +393,8 @@ void loadAssets(RenderWindow& window)
     infootext.setPosition(230, 605);
 
     // for credit and info text appearance
+    hallTextBool = false;
     infoname = false;
-
 
 
     //################### CREDIT STUFF #######################
