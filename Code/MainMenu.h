@@ -17,10 +17,10 @@ SoundBuffer owletmoveBuffer, startbuffer, clickbuffer, cluebuffer, wonbuffer;
 Sound Cluefound, clicksound, owletmoveSound, startsound, won;
 
 Texture backgroundTexture, credit, startt, quit, info, emptyy, back, cslogo, one, nine, five, zero, seven, banner, win,
-maptexture, cs, palace, edu, science, law, masscomm, start, csl, palacel, edul, sciencel, lawl, masscomml, csd, palaced, edud, scienced, lawd, masscommd, greendone, csbackground, char1, aboutustext;
+maptexture, cs, palace, edu, science, law, masscomm, start, csl, palacel, edul, sciencel, lawl, masscomml, csd, palaced, edud, scienced, lawd, masscommd, greendone, csbackground, char1, aboutustext, aboutUsPic;
 
 Sprite background, hallIcon, Start, Quit, Info, Empty, Back, CSlogo, first, second, third, fourth, fifth, sixth, Banner,
-Win, Gamemap, Start1, CS, Palace, Edu, Law, Science, massComm, csback, owlet, aboutus;
+Win, Gamemap, Start1, CS, Palace, Edu, Law, Science, massComm, csback, owlet, aboutus, aboutUsPicSprite;
 
 Sprite done[5];
 
@@ -260,6 +260,7 @@ void MainMenu(RenderWindow& window)
             window.draw(credittext);
             window.draw(Back);
             window.draw(CSlogo);
+            window.draw(aboutUsPicSprite);
             window.display();
         }
         
@@ -291,6 +292,14 @@ void MainMenu(RenderWindow& window)
 
 void loadAssets(RenderWindow& window)
 {
+    //About Us Pic
+    if(!aboutUsPic.loadFromFile("Resources/AboutUsPic.jpg"))
+        exit(1);
+    aboutUsPicSprite.setTexture(aboutUsPic);
+    aboutUsPicSprite.setScale(0.18, 0.18);
+    aboutUsPicSprite.setOrigin(aboutUsPicSprite.getLocalBounds().width / 2.f, 0);
+    aboutUsPicSprite.setPosition(menuUiCenterX, 10);
+    
     // LOADING THE ASSETS
     if (!font.loadFromFile("Resources/MainMenu/Media/font/font.otf"))
         cout << "Font failed to load" << endl;

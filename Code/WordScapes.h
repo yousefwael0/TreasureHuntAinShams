@@ -481,36 +481,6 @@ void WordScapes(RenderWindow& window)
                 {
                     isDragging[i] = false;
                 }
-                
-                /*
-                 switch (event.type)
-                 {
-                 case Event::MouseButtonPressed:
-                 if (event.mouseButton.button == Mouse::Left)
-                 {
-                 if (objects[i].getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                 isDragging[i] = true;
-                 offset[i] = objects[i].getPosition() - Vector2f(event.mouseButton.x, event.mouseButton.y);
-                 }
-                 }
-                 break;
-                 
-                 case Event::MouseButtonReleased:
-                 if (event.mouseButton.button == Mouse::Left)
-                 {
-                 isDragging[i] = false;
-                 }
-                 break;
-                 
-                 default:
-                 break;
-                 }
-                 // If dragging is in progress, update the position of the object
-                 if (isDragging[i])
-                 {
-                 objects[i].setPosition(Vector2f(Mouse::getPosition(wordscapes)) + offset[i]);
-                 }
-                 */
             }
             
             //el intersection (function mawgooda fo2)

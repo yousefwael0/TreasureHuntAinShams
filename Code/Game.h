@@ -238,6 +238,7 @@ void CheckForUIChanges(RenderWindow& window)
         DrawWinScreen(window);
 }
 
+//Function To Check If the palace is open
 bool OpenPalace()
 {
     for (int i = 1; i < StateCount-1; i++)

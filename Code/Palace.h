@@ -7,6 +7,7 @@ struct Player
     int year;
 };
 
+//Funtion To check if all Letters are Correct
 bool AllLettersCorrect(bool soundCorrectPlayed[])
 {
     for (int i = 0; i < 6; i++)

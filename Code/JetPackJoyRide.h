@@ -30,7 +30,7 @@ void jetPackGame(RenderWindow& window)
         window.display();
     }
     srand(time(0));
-    Clock win;
+    Clock winClock;
     Text scoreText("Time: ", gameFont, 20);
     Texture bg1_txtr, bg2_txtr, bullet_txtr, txtr;
     if (!bg1_txtr.loadFromFile("Resources/JetPack/bg1.png"))//load background 1
@@ -113,6 +113,7 @@ void jetPackGame(RenderWindow& window)
     game.up = false; game.down = false;
     Clock bullet_clock, jet_clock;
     
+    float winClockBeforePause = 0;
     while (window.isOpen())
     {
         PollEventloop(window);
@@ -120,10 +121,17 @@ void jetPackGame(RenderWindow& window)
         if (stateChanged)
             break;
         
-        if (!lost && !paused && !gameWon) 
+        if (paused)
         {
-            scoreText.setString("Time: "+to_string((int)win.getElapsedTime().asSeconds()));
-            if (win.getElapsedTime().asSeconds() >= 15.f)
+            if (winClock.getElapsedTime().asSeconds() != 0)
+                winClockBeforePause += winClock.restart().asSeconds();
+            winClock.restart();
+        }
+        
+        if (!lost && !paused && !gameWon)
+        {
+            scoreText.setString("Time: "+to_string((int)winClock.getElapsedTime().asSeconds() + (int)winClockBeforePause));
+            if (winClock.getElapsedTime().asSeconds() + winClockBeforePause >= 15.f)
                 gameWon = true;
             if (Keyboard::isKeyPressed(Keyboard::Space))//Upward Movement and bullet Positioning initialized when pressing space bar
             {
